@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css">
+    <link rel="stylesheet" href="./">
+</head>
+<body>
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-body rounded text-center">
+    <h1 class="titulo">To-Do App</h1>  
+    <form class="d-flex">
+        <input class="input-centrado" type="text" placeholder="Agregar Lista" style="width : 300px">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">ADD</button>
+      </form>
+        
+    </div>
+    <tbody >
+    </tbody>
+    <template id="crud-template">
+            <h2 id="list Name"></h2>
+            <form class="d-flex">
+                <input class="form-control me-sm-2" type="text" placeholder="¿Que piensas hacer?">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit" id ="create-task">Crear</button>
+              </form>
+              <tr>
+                <th>ID Tarea</th>
+                <th>¿completado?</th>
+            </tr>
+    </template>  
+</div>
+</body>
+    <script src="/js/todoapp.js"></script>
+</html>
