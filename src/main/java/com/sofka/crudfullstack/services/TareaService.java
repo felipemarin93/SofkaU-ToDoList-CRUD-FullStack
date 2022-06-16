@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+
+/**
+ * Clase Service que recibe los llamados del controlador para invocar al repository implementado para los métodos CRUD
+ *
+ */
 @Service
 public class TareaService {
 
@@ -17,17 +22,32 @@ public class TareaService {
         return tareaRepository.findAll();
     }
 
+
+    /**
+     * Método para crear una tarea dentro de la Bd recibe los
+     * @param
+     * @return la información guardada
+     */
     public Tarea crearTarea(Tarea tarea){
         tarea.setCompletado(false);
         return tareaRepository.save(tarea);
     }
 
+    /**
+     * Método para eliminar una tarea que recibe el ID y se lo envía al repository.
+     * @param id recibe el Id de la tarea para eliminar en la BD
+     * Este método no retorna nada
+     */
     public void eliminarTarea(Long id){
         tareaRepository.deleteById(id);
     }
-    public Tarea get(Long id){
-        return tareaRepository.findById(id).orElseThrow();
-    }
+
+    /**
+     * Método para actualizar tarea
+     * @param id recibe los parámetros de id y recibe el objeto a actualizar en la BD
+     * @param subTarea
+     * @return
+     */
     @Transactional
     public Tarea actualizarTarea(Long id, Tarea subTarea) {
         subTarea.setId(id);
