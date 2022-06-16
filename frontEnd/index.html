@@ -11,27 +11,47 @@
 <body>
 
     <div class="container mt-4 shadow-lg p-3 mb-5 bg-body rounded text-center">
-    <h1 class="titulo">To-Do App</h1>  
-    <form class="d-flex">
-        <input class="input-centrado" type="text" placeholder="Agregar Lista" style="width : 300px">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">ADD</button>
-      </form>
+    <h1 class="titulo">To-Do LIST</h1>  
+    <form class="d-flex
+    ">
+        <input class="input-centrado" type="text" placeholder="List name" style="width : 300px">
+        <button class="btn btn-info my-2 my-sm-0" type="submit" style="margin: 10px">ADD LIST</button>
         
-    </div>
-    <tbody >
-    </tbody>
-    <template id="crud-template">
-            <h2 id="list Name"></h2>
-            <form class="d-flex">
-                <input class="form-control me-sm-2" type="text" placeholder="¿Que piensas hacer?">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit" id ="create-task">Crear</button>
-              </form>
-              <tr>
-                <th>ID Tarea</th>
-                <th>¿completado?</th>
-            </tr>
-    </template>  
-</div>
+      </form>
+      <br>
+
+    <section id="contenedor-card">
+        <div class="card border-info mb-3" style="max-width: 60rem;">
+            <div class="card-header">
+                <h2>List Title</h2>
+                <input type="text" placeholder="new task" style="width : 250px">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Add Task</button>
+                <button class="btn btn-danger my-2 my-sm-0" type="submit" style="margin-left: 200px">Delete List</button>
+            </div>
+            <div class="card-body">
+                <table id="tabla-tarea" class="table table-hover">
+                    <tr>
+                    <th>Task Name</th>
+                    <th>Completed</th>
+                    <th>Actions</th>
+
+                    </tr>
+                    <tr>
+                        <td>1.</td>
+                        <td>Example of task</td>
+                        <td><button>Edit</button>
+                            <button>Delete</button></td>
+                    </tr>
+
+                </table>
+              
+              
+                </div>
+            </div>
+
+    </section>  
+    
+   
 </body>
     <script src="/js/todoapp.js"></script>
 </html>
