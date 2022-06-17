@@ -12,24 +12,37 @@ let resultTask="";
  * método showList para mostralas
  */
 
-fetch(url+`/lista`)
-    .then(response=>response.json())
-    .then(cardJson=>showList(cardJson))
-    .catch(error=>alert(error.message));
+
+
+
+
+ fetch(url+`/lista`)
+     .then(response=>response.json())
+     .then(cardJson=>showList(cardJson))
+     .catch(error=>alert(error.message));
 
      /**
     * Función que obtiene las listas en el DOM con sus respectivas listas,
     * además recorre cada element de dicho arreglo obtenido para obtener el nombre y el id de las listas
     * Por último agrega cada card para cada lista en el HTML principal
     */ 
-    const showList = async (cards)=>{
-        let card = "";
-        await cards.forEach(e => {
-             card+= fillSection(e.nombre, e.id);
-        });
-        $container_task.innerHTML = card;
+
+      const showList = async (cards)=>{
+          let card = "";
+           await cards.forEach(e => {
+                card+= fillSection(e.nombre, e.id,e);
+           });
+
+            fillSection(cards);
+          $container_task.innerHTML = card;  
         
-    }
+      }
+
+    
+
+
+
+
     /**
     * Función de evento del click para agregar lista capturando el valor que tiene el input del
     * HTML, y llama a la función crear enviandole dicho valor, por último recarga la página para actualizar los cambios.
