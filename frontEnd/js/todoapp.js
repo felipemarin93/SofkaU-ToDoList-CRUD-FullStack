@@ -24,8 +24,8 @@ fetch(url+`/lista`)
     */ 
     const showList = async (cards)=>{
         let card = "";
-        cards.forEach(e => {
-            card+= fillSection(e.nombre, e.id);
+        await cards.forEach(e => {
+             card+= fillSection(e.nombre, e.id);
         });
         $container_task.innerHTML = card;
         
@@ -62,33 +62,53 @@ fetch(url+`/lista`)
 
                 showList();
          } 
-    
-
          
-    //muestra las listas en la BD
-    // async function mostrarList() {
-    //     let res = await fetch(`${url}/listas`)
-    //     let data = await res.json()
-    //     .catch(error => console.log(error))
-    //     console.log(data)
-    //     mostrar(data)
-    // }
 
-    // async function createList(nombre){
-    
-    //          let informationReceipt = await{
-    //            method: "POST",
-    //            headers: {
-    //              "Content-type": "application/json; charset=utf-8"
-    //            },
-    //            body: JSON.stringify({
-    //              nombre: nombre
+         /**
+          * Evento que escucha los clicks que se hacen dentro del contenedor, cuando clickeas
+          * en el botón eliminar llama el método eliminar tarea y cuando se clickea en create tarea
+          * llama la creación de dicho elemento.
+          */
+         $container_task.addEventListener("click", async (e) => {
+            if (e.target.classList[0] == "deleteList") {
+               deleteList(e.target.previousElementSibling.textContent)
+              
+            }
+            if (e.target.classList[0] == "createTask") { 
+                e.preventDefault()
+                console.log(e.path[0].value);
+                //if (e.target.parentElement.children[3].textContent == "Crear") {
+                  let dato = {
+                    nombre:e.target.previousElementSibling.value,
+                    id:e.path[0].value
+                  }
+                  
+                  createTask(dato.nombre, dato.id)   
                 
-    //            })
-    //          },
-    //            response = await fetch(`${url}/crearlista`, informationReceipt)
-    //            showList()    
-    //         }
+                    
+              }
+        
+        })
+        /**
+         * Función para eliminar una lista recibiendo el
+         * @param {*} id que es capturado por el evento listener
+         * por ultimo recarga la pagina
+         */
+        async function deleteList(id) {
+            
+            let informationReceipt = {
+                method: "DELETE",
+                headers: {
+                    "Content-type": "application/json; charset=utf-8"
+                },
+            },
+                res = await fetch(`${url}/eliminarlista/${id}`, informationReceipt)
+        
+            location.reload()
+            
+        }   
+         
+
     
 /**
  * Esta función muestra las listas almacenadas en la base de datos usando una solicitud tipo  GET
@@ -106,87 +126,46 @@ fetch(url+`/lista`)
  }
 
 
-/**
- * Esta función Muestra las tareas almacenadas en la base de datos usando una solicitud tipo  GET
- * en la cual se concatena la URL mas la ruta especifica que tiene el endpoint del backend para traer la información completa
- * 
- */
-//   async function showTaskstiven(){
 
-//       let response = await fetch(`${url}/tareas`)
 
-//       let data = await response.json()
-//       console.log(data)
-//          insertList(data)
+ async function createTask(nombre,id){
     
-//   }
-
-//  async function deleteList(id){
-//     try {
-//          let informationReceipt = {
-//              method: "DELETE",
-//              headers: {
-//                "Content-type": "application/json; charset=utf-8"
-//              },     
-//            },
-//             res = await fetch(`${url}/eliminarlista/${id}`,informationReceipt)
-//              showList()
-//              location.reload()
-
-//     } catch (error) {
-//         console.log("Elemento no existe en BD");
-//     }
-// }
-     
-
-    // deleteList(14)
-
-    // taskSection.addEventListener("onclick", (event) => {
-    //     if (event.target.classList[0] == "DeleteList") {
-    //       deleteList(event.target.previousElementSibling.textContent)
-    //     }else{
-    //       modifyTask(event.target.previousElementSibling.textContent)
-    //     } 
-    //   })
-    
-    //   btn.addEventListener("onclick", (event) => {    
-    //       deleteList(document.querySelector('.deleteList').value)
-    //   })
-
-
-    $container_task.addEventListener("click", async (e) => {
-        if (e.target.classList[0] == "deleteList") {
-           deleteList(e.target.previousElementSibling.textContent)
-          
-        }
-        
-        //revisar
-        if (e.target.classList[0] == "createTask") {    
-          
-            if (e.target.parentElement.children[3].textContent == "Crear") {
-              let dato = {
-                nombre:e.target.previousElementSibling.value,
-                id:e.target.parentElement.children[1].children[1].textContent
-              }
-              
-              createTask(dato.nombre,dato.id)   
-              console.log(dato.nombre);   
-            }
-                
-          }
-    
-    })
-
-    async function deleteList(id) {
-        
         let informationReceipt = {
-            method: "DELETE",
+            method: "POST",
             headers: {
-                "Content-type": "application/json; charset=utf-8"
+              "Content-type": "application/json; charset=utf-8"
             },
-        },
-            res = await fetch(`${url}/eliminarlista/${id}`, informationReceipt)
-    
-        location.reload()
+            body: JSON.stringify({  
+              nombre: nombre,
+              completado: false,
+              lista:{
+                      id: id
+                  }
+            })
+            
+          },
         
-    }
+            res = await fetch(`${url}/creartarea`, informationReceipt)
+            location.reload()
+            
+  
+}
+
+async function deleteTask(id) {
+            
+    let informationReceipt = {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json; charset=utf-8"
+        },
+    },
+        res = await fetch(`${url}/eliminartarea/${id}`, informationReceipt)
+
+    location.reload()
+    
+}   
+
+
+
+
+

@@ -5,9 +5,9 @@ export const fillSection =(titleList,idList) =>{
             <div class="card-header">
                 <h2 >${titleList}</h2>
                     <input type="text" placeholder="new task" style="width : 250px">
-                    <button class= "createTask btn btn-success my-2 my-sm-0" type="submit">Add Task</button>
-                    <spam class = "spamId">${idList}</spam>
-                    <button class= "deleteList btn btn-danger my-2 my-sm-0" " type="submit" style="margin-left: 200px">Delete
+                    <button class= "createTask btn btn-success my-2 my-sm-0" type="submit" value="${idList}">Add Task</button>
+                    <spam  id="novisible"class = "spamId">${idList}</spam>
+                    <button class= "deleteList btn btn-danger my-2 my-sm-0" " type="submit" style="margin-left: 200px" value="${idList}">Delete
                 List</button>
         </div>
         <div class="card-body">
