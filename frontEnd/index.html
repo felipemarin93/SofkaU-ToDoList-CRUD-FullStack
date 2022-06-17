@@ -15,7 +15,7 @@
     <form class="d-flex
     ">
         <input class="input-centrado" type="text" placeholder="List name" style="width : 300px">
-        <button class="btn btn-info my-2 my-sm-0" type="submit" style="margin: 10px">ADD LIST</button>
+        <button class="btn btn-info my-2 my-sm-0" type="submit" style="margin: 10px" id="btnAddList">ADD LIST</button>
         
       </form>
       <br>
@@ -37,10 +37,12 @@
 
                     </tr>
                     <tr>
-                        <td>1.</td>
-                        <td>Example of task</td>
-                        <td><button>Edit</button>
-                            <button>Delete</button></td>
+                        <td>My First task</td>
+                        <td>
+                            <input class="form-check-input" type="checkbox" value="" id="checkbox" style="text-align:right">
+                         </td>
+                        <td><button class="btn btn-warning" >Edit</button>
+                            <button class="btn btn-danger">Delete</button></td>
                     </tr>
 
                 </table>
