@@ -1,6 +1,6 @@
 let url = 'http://localhost:8080';
 
-import {fillSection} from "./seccion.js"
+import {fillSection, fillSection2} from "./seccion.js"
 const $container_task = document.querySelector('.container-task');
 const $createList = document.querySelector('#btnAddList');
 let result = "";
@@ -29,14 +29,44 @@ let resultTask="";
 
       const showList = async (cards)=>{
           let card = "";
+          let tarea ="";
            await cards.forEach(e => {
-                card+= fillSection(e.nombre, e.id,e);
+
+            tarea ="";
+            e.tarea.forEach(task => {
+                
+                tarea+= `
+                <tr>
+                    <td>${task.nombre}</td>
+                    <td>
+                        <input class="form-check-input" type="checkbox" value="" id="checkbox"
+                            style="text-align:right">
+                    </td>
+                    <td><button class="btn btn-warning">Edit Task</button>
+                        <button class="btn btn-danger">Delete Task</button>
+                    </td>
+                </tr>`
+            });
+
+                card+= fillSection2(e.nombre, e.id,tarea);
            });
 
             fillSection(cards);
           $container_task.innerHTML = card;  
         
       }
+
+    //   const showList = async (cards)=>{
+    //     let card = "";
+    //      await cards.forEach(e => {
+
+    //           card+= fillSection(e.nombre, e.id);
+    //      });
+
+    //       fillSection(cards);
+    //     $container_task.innerHTML = card;  
+      
+    // }
 
     
 
