@@ -1,8 +1,10 @@
 let url = "http://localhost:8080";
 
-import { fillSection, fillSection2 } from "./seccion.js";
+import { fillSection2 } from "./seccion.js";
 const $container_task = document.querySelector(".container-task");
 const $createList = document.querySelector("#btnAddList");
+
+
 
 
 /**
@@ -17,7 +19,7 @@ fetch(url + `/lista`)
 
 /**
  * Función que obtiene las listas en el DOM con sus respectivas listas y tareas,
- * además recorre cada element de dicho arreglo obtenido para obtener el nombre y el id de las listas y las tareas
+ * además recorre cada element de dicho arreglo obtenido para obtener el nombre y el id de las listas y
  * Por último agrega cada card para cada lista en el HTML principal
  */
 
@@ -31,10 +33,11 @@ const showList = async (cards) => {
                 <tr>
                     <td>${task.nombre}</td>
                     <td>
-                        <input class="form-check-input" type="checkbox" value="" id="checkbox"
+                        <input class="checkbox form-check-input" type="checkbox" value="" id="checkbox${task.id}"
                             style="text-align:right">
                     </td>
-                    <td><button class="editTask btn btn-warning" value="${task.id}">Edit</button>
+                    <td><button class="editTask btn btn-warning" id="editTask${task.id}" value="${task.id}">Edit</button>
+                
                         <button class="deleteTask btn btn-danger" value="${task.id}">Delete</button>
                     </td>
                 </tr>`;
@@ -43,7 +46,7 @@ const showList = async (cards) => {
         card += fillSection2(e.nombre, e.id, tarea);
     });
 
-    fillSection(cards);
+    fillSection2(cards);
     $container_task.innerHTML = card;
 };
 
@@ -94,13 +97,13 @@ async function createList(newLista) {
 $container_task.addEventListener("click", async (e) => {
     if (e.target.classList[0] == "deleteList") {
         deleteList(e.target.previousElementSibling.textContent);
-         
+
 
     }
     if (e.target.classList[0] == "createTask") {
         e.preventDefault();
         console.log(e.path[0].value);
-        //if (e.target.parentElement.children[3].textContent == "Crear") {
+       
         let dato = {
             nombre: e.target.previousElementSibling.value,
             id: e.path[0].value,
@@ -110,8 +113,51 @@ $container_task.addEventListener("click", async (e) => {
     }
     if (e.target.classList[0] == "deleteTask") {
         deleteTask(e.path[0].value);
+
+    
+    }
+    if (e.target.classList[0] == "editTask") {
+
+            let nombreTaskReference = e.path[2].children[0].textContent;
+            let idTask = e.path[0].value; 
+            let idList = e.path[6].id;
+
+            
+            e.path[6].children[0].children[1].value=nombreTaskReference;
+            console.log(e.path[6].children[0].children[1].text);
+
+            e.path[6].children[0].children[2].textContent="Update"
+
+        
+            let datosActualizar= {
+                nameTask : "dass",
+                task : idTask,
+                lista: idList
+            }
+
+                deleteTask(idTask);
+                let actualNameTask = e.path[6].children[0].children[1];
+  
         
     }
+    /**
+     * Accion que captura el evento del checkbox y deshabilita el botón editar bloqueando así su fincionamiento
+     * y pasando el estado de la tarea de completado a true
+     */
+      if (e.target.classList[0] == "checkbox") {
+
+
+       let btnvalidar = document.getElementById('editTask' + e.path[2].children[2].children[0].value)
+        let check = document.getElementById('checkbox' + e.path[2].children[2].children[0].value).checked
+        if (check) {
+            btnvalidar.disabled = true;
+        } else {
+            btnvalidar.disabled = false;
+         }
+
+    }
+
+
 });
 /**
  * Función para eliminar una lista recibiendo el
@@ -170,5 +216,35 @@ async function deleteTask(id) {
     },
         res = await fetch(`${url}/eliminartarea/${id}`, informationReceipt);
 
-    location.reload();
+    
 }
+
+/**
+ * Función que actuliza la tarea indicada y recibe
+ * @param {*} IdList el Id de la lista padre
+ * @param {*} nombreTask el nombre de la tarea capturado en el input
+ * @param {*} idTask el id de la tarea a actualizar
+ */
+
+async function updateTask(IdList, nombreTask, idTask){
+    let informationReceipt = {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json; charset=utf-8",
+        },
+        body: Json.stringify ({
+            nombre: nombreTask,
+            completado: false,
+            lista: {
+                id: IdList
+        }
+    })
+    },
+        res = await fetch(`${url}/actualizartarea/${idTask}`,informationReceipt);
+
+    location.reload();
+
+}
+
+
+
