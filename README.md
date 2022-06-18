@@ -16,6 +16,6 @@ link del video: https://www.youtube.com/watch?v=8XsYkq-iTxU
 6 ejecutar el proyecto con live server tener en cuenta el puerto que se ejecuta es el 5500.
 
 
-Repositorio GirHub:
+Repositorio GirHub: https://github.com/felipemarin93/SofkaU-ToDoList-CRUD-FullStack
 
 author: Daienl Felipe Marin Giraldo
