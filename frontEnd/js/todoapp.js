@@ -5,7 +5,9 @@ const $container_task = document.querySelector(".container-task");
 const $createList = document.querySelector("#btnAddList");
 
 
-
+let objetoTask = {
+    
+}
 
 /**
  * Este Fetch obtiene la data de las listas de la BD y transforma dicho objeto en uno JSON, también llama el
@@ -37,7 +39,6 @@ const showList = async (cards) => {
                             style="text-align:right">
                     </td>
                     <td><button class="editTask btn btn-warning" id="editTask${task.id}" value="${task.id}">Edit</button>
-                
                         <button class="deleteTask btn btn-danger" value="${task.id}">Delete</button>
                     </td>
                 </tr>`;
@@ -87,6 +88,7 @@ async function createList(newLista) {
         res = await fetch(`${url}/crearlista`, informationReceipt);
 
     showList();
+    location.reload();
 }
 
 /**
@@ -95,12 +97,13 @@ async function createList(newLista) {
  * llama la creación de dicho elemento.
  */
 $container_task.addEventListener("click", async (e) => {
+    
     if (e.target.classList[0] == "deleteList") {
         deleteList(e.target.previousElementSibling.textContent);
 
 
     }
-    if (e.target.classList[0] == "createTask") {
+    if (e.target.textContent == "Add Task") {
         e.preventDefault();
         console.log(e.path[0].value);
        
@@ -108,7 +111,7 @@ $container_task.addEventListener("click", async (e) => {
             nombre: e.target.previousElementSibling.value,
             id: e.path[0].value,
         };
-
+        console.log(e.target.previousElementSibling.value,);
         createTask(dato.nombre, dato.id);
     }
     if (e.target.classList[0] == "deleteTask") {
@@ -118,26 +121,12 @@ $container_task.addEventListener("click", async (e) => {
     }
     if (e.target.classList[0] == "editTask") {
 
-            let nombreTaskReference = e.path[2].children[0].textContent;
-            let idTask = e.path[0].value; 
-            let idList = e.path[6].id;
+            objetoTask.idTaskName = e.target.value;
 
-            
-            e.path[6].children[0].children[1].value=nombreTaskReference;
-            console.log(e.path[6].children[0].children[1].text);
-
-            e.path[6].children[0].children[2].textContent="Update"
-
-        
-            let datosActualizar= {
-                nameTask : "dass",
-                task : idTask,
-                lista: idList
-            }
-
-                deleteTask(idTask);
-                let actualNameTask = e.path[6].children[0].children[1];
-  
+             let nombreTaskReference = e.path[2].children[0].textContent;
+             e.path[6].children[0].children[1].value=nombreTaskReference;
+             e.path[6].children[0].children[2].textContent="Update Task"
+             
         
     }
     /**
@@ -154,15 +143,27 @@ $container_task.addEventListener("click", async (e) => {
         } else {
             btnvalidar.disabled = false;
          }
+        
 
-    }
+     }if (e.target.textContent == "Update Task") {
+        
+        let newName = e.target.previousElementSibling.value
+        let idList = e.path[0].value;
+        let idTask = objetoTask.idTaskName;
 
+        updateTask(idList,newName,idTask);
+        console.log(idList);
+        console.log(newName);
+        console.log(idTask);
+       
+      
+     }
 
 });
 /**
  * Función para eliminar una lista recibiendo el
  * @param {*} id que es capturado por el evento listener
- * por ultimo recarga la pagina
+ * por ultimo recarga la pagina en el DOM
  */
 async function deleteList(id) {
     let informationReceipt = {
@@ -191,6 +192,7 @@ async function createTask(nombre, id) {
             "Content-type": "application/json; charset=utf-8",
         },
         body: JSON.stringify({
+        
             nombre: nombre,
             completado: false,
             lista: {
@@ -199,7 +201,7 @@ async function createTask(nombre, id) {
         }),
     },
         res = await fetch(`${url}/creartarea`, informationReceipt);
-    location.reload();
+     location.reload();
 }
 
 /**
@@ -216,6 +218,7 @@ async function deleteTask(id) {
     },
         res = await fetch(`${url}/eliminartarea/${id}`, informationReceipt);
 
+        location.reload();
     
 }
 
@@ -226,14 +229,16 @@ async function deleteTask(id) {
  * @param {*} idTask el id de la tarea a actualizar
  */
 
-async function updateTask(IdList, nombreTask, idTask){
-    let informationReceipt = {
+async function updateTask(IdList, newName, idTask){
+
+     let informationReceipt = {
         method: "PUT",
         headers: {
             "Content-type": "application/json; charset=utf-8",
         },
-        body: Json.stringify ({
-            nombre: nombreTask,
+        body: JSON.stringify ({
+            
+            nombre: newName,
             completado: false,
             lista: {
                 id: IdList
